@@ -8,11 +8,11 @@ import { prisma } from "@/lib/db";
 import { slugify } from "@/lib/format";
 
 const productSchema = z.object({
-  id: z.coerce.number().optional(),
+  id: z.string().optional(),
   name: z.string().min(2, "Product name must be at least 2 characters"),
   slug: z.string().optional(),
   description: z.string().default(""),
-  categoryId: z.coerce.number().positive("Please select a category"),
+  categoryId: z.string().min(1, "Please select a category"),
   price: z.coerce.number().min(0, "Price must be positive"),
   salePrice: z.coerce
     .number()
@@ -28,7 +28,7 @@ const productSchema = z.object({
   isActive: z.boolean().default(true),
 });
 
-export type ProductFormResult = { error?: string; success?: boolean; id?: number };
+export type ProductFormResult = { error?: string; success?: boolean; id?: string };
 
 export async function saveProduct(
   prevState: ProductFormResult | undefined,
@@ -37,14 +37,14 @@ export async function saveProduct(
   await requireAdmin();
 
   const idRaw = formData.get("id");
-  const id = idRaw ? Number(idRaw) : undefined;
+  const id = idRaw ? String(idRaw).trim() || undefined : undefined;
 
   const rawData = {
     id,
     name: String(formData.get("name") || "").trim(),
     slug: String(formData.get("slug") || "").trim(),
     description: String(formData.get("description") || "").trim(),
-    categoryId: formData.get("categoryId"),
+    categoryId: String(formData.get("categoryId") || "").trim(),
     price: formData.get("price"),
     salePrice: formData.get("salePrice") || null,
     stock: formData.get("stock") || 0,
@@ -64,7 +64,7 @@ export async function saveProduct(
   const data = parsed.data;
   const baseSlug = data.slug ? slugify(data.slug) : slugify(data.name);
 
-  let createdId: number | null = null;
+  let createdId: string | null = null;
   try {
     let finalSlug = baseSlug;
     // Ensure slug uniqueness
@@ -135,7 +135,7 @@ export async function saveProduct(
   return { success: true, id };
 }
 
-export async function deleteProduct(id: number): Promise<{ success: boolean; error?: string }> {
+export async function deleteProduct(id: string): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
   try {
     await prisma.product.delete({ where: { id } });
@@ -149,7 +149,7 @@ export async function deleteProduct(id: number): Promise<{ success: boolean; err
 }
 
 export async function quickUpdateStock(
-  id: number,
+  id: string,
   stock: number
 ): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
@@ -167,7 +167,7 @@ export async function quickUpdateStock(
 }
 
 export async function toggleProductActive(
-  id: number,
+  id: string,
   isActive: boolean
 ): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();

@@ -6,7 +6,7 @@ import { effectivePrice } from "@/lib/format";
 import { getSettings } from "@/lib/settings";
 
 const checkoutItemSchema = z.object({
-  productId: z.number().int().positive(),
+  productId: z.string().min(1),
   quantity: z.number().int().positive(),
   size: z.string().default(""),
   color: z.string().default(""),
@@ -76,7 +76,7 @@ export async function placeOrder(input: CheckoutInput): Promise<CheckoutResult> 
     // Check stock and compute subtotal using verified DB prices
     let subtotal = 0;
     const orderItemsToCreate: {
-      productId: number;
+      productId: string;
       name: string;
       image: string;
       price: number;

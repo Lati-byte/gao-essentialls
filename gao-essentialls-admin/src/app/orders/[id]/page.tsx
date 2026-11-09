@@ -31,15 +31,14 @@ interface AdminOrderDetailPageProps {
 export default async function AdminOrderDetailPage({ params }: AdminOrderDetailPageProps) {
   await requireAdmin();
   const { id } = await params;
-  const orderId = parseInt(id, 10);
 
-  if (isNaN(orderId)) {
+  if (!id) {
     notFound();
   }
 
   const [order, settings] = await Promise.all([
     prisma.order.findUnique({
-      where: { id: orderId },
+      where: { id },
       include: {
         items: {
           include: {

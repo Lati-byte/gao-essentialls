@@ -6,7 +6,7 @@ import { updateOrderStatus, updatePaymentStatus } from "@/actions/admin-orders";
 import { ORDER_STATUSES, PAYMENT_STATUSES, statusLabel } from "@/lib/format";
 
 interface OrderStatusControlProps {
-  orderId: number;
+  orderId: string;
   initialStatus: string;
   initialPaymentStatus: string;
 }

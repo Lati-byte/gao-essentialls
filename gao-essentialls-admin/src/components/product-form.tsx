@@ -17,17 +17,17 @@ import {
 import { saveProduct } from "@/actions/admin-products";
 
 interface CategoryOption {
-  id: number;
+  id: string;
   name: string;
 }
 
 interface ProductFormProps {
   initialData?: {
-    id: number;
+    id: string;
     name: string;
     slug: string;
     description: string;
-    categoryId: number;
+    categoryId: string;
     price: number;
     salePrice: number | null;
     stock: number;

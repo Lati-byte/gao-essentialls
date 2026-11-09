@@ -27,11 +27,14 @@ This monorepo contains two independent Next.js 16 applications sharing a unified
 
 ## 🚀 Deployment Guide on Render (`render.com`)
 
-### 1. Database Setup (Render PostgreSQL)
-1. On your Render dashboard, click **New +** → **PostgreSQL**.
-2. **Name**: `gao-db`
-3. **Plan**: Free (or Starter for production)
-4. Once provisioned, copy the **Internal Database URL** (for services inside Render) or **External Database URL**.
+### 1. Database Setup (MongoDB Atlas – 100% Free Forever)
+1. Go to **[mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)** and create a free M0 cluster (e.g. region Frankfurt / Ireland).
+2. In **Security** → **Network Access**, click **Add IP Address** → choose **Allow Access From Anywhere** (`0.0.0.0/0`) so Render services can connect.
+3. In **Security** → **Database Access**, create a database user (e.g. `gao_admin`) with a secure password.
+4. Click **Connect** → **Drivers** (Node.js) → copy your connection string:
+   ```
+   mongodb+srv://gao_admin:<password>@cluster0.xxxx.mongodb.net/gao_essentialls?retryWrites=true&w=majority
+   ```
 
 ### 2. Storefront Web Service (`gao-essentialls`)
 1. Click **New +** → **Web Service** → Connect your GitHub repository (`Lati-byte/gao-essentialls`).
@@ -47,8 +50,8 @@ This monorepo contains two independent Next.js 16 applications sharing a unified
    npm run start
    ```
 7. **Environment Variables**:
-   - `DATABASE_URL`: *(Your Render PostgreSQL connection string)*
-   - `AUTH_SECRET`: *(A secure 32+ character random string)*
+   - `DATABASE_URL`: *(Your MongoDB Atlas connection string)*
+   - `AUTH_SECRET`: `c8f18d7b3e15a9e407d3b841e21b8f06927d14e590c2a8f`
    - `NODE_ENV`: `production`
 
 ### 3. Database Seeding (First-Time Only)

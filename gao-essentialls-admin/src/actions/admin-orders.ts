@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
 export async function updateOrderStatus(
-  orderId: number,
+  orderId: string,
   newStatus: string
 ): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
@@ -65,7 +65,7 @@ export async function updateOrderStatus(
 }
 
 export async function updatePaymentStatus(
-  orderId: number,
+  orderId: string,
   paymentStatus: string
 ): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
@@ -85,7 +85,7 @@ export async function updatePaymentStatus(
   }
 }
 
-export async function deleteOrder(orderId: number): Promise<{ success: boolean; error?: string }> {
+export async function deleteOrder(orderId: string): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
   try {
     await prisma.order.delete({ where: { id: orderId } });

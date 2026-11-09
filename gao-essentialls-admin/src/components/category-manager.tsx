@@ -16,7 +16,7 @@ import {
 import { deleteCategory, saveCategory } from "@/actions/admin-categories";
 
 interface CategoryItem {
-  id: number;
+  id: string;
   name: string;
   slug: string;
   description: string;
@@ -104,7 +104,7 @@ export function CategoryManager({ categories }: { categories: CategoryItem[] }) 
     });
   }
 
-  function handleDelete(id: number, name: string) {
+  function handleDelete(id: string, name: string) {
     if (confirm(`Are you sure you want to delete category "${name}"?`)) {
       startTransition(async () => {
         setError(null);

@@ -14,15 +14,14 @@ interface EditProductPageProps {
 export default async function EditProductPage({ params }: EditProductPageProps) {
   await requireAdmin();
   const { id } = await params;
-  const productId = parseInt(id, 10);
 
-  if (isNaN(productId)) {
+  if (!id) {
     notFound();
   }
 
   const [product, categories, settings] = await Promise.all([
     prisma.product.findUnique({
-      where: { id: productId },
+      where: { id },
     }),
     prisma.category.findMany({
       orderBy: { name: "asc" },

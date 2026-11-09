@@ -190,7 +190,6 @@ async function main() {
   console.log("Creating settings and admin user…");
   await prisma.setting.create({
     data: {
-      id: 1,
       storeName: "Gao Essentialls",
       currencySymbol: "R",
       deliveryFee: 99,
@@ -216,7 +215,7 @@ async function main() {
   });
 
   console.log("Creating categories and products…");
-  const createdProducts: { id: number; name: string; price: number; image: string; sizes: string[]; colors: string[] }[] = [];
+  const createdProducts: { id: string; name: string; price: number; image: string; sizes: string[]; colors: string[] }[] = [];
   let skuCounter = 1000;
 
   for (const [index, cat] of catalogue.entries()) {

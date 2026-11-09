@@ -2,9 +2,9 @@ import "server-only";
 import { prisma } from "./db";
 
 export async function getSettings() {
-  const existing = await prisma.setting.findUnique({ where: { id: 1 } });
+  const existing = await prisma.setting.findFirst();
   if (existing) return existing;
-  return prisma.setting.create({ data: { id: 1 } });
+  return prisma.setting.create({ data: {} });
 }
 
 export type StoreSettings = Awaited<ReturnType<typeof getSettings>>;

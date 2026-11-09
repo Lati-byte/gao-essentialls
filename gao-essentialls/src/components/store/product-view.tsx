@@ -19,7 +19,7 @@ import { useCart } from "./cart-context";
 
 interface ProductViewProps {
   product: {
-    id: number;
+    id: string;
     slug: string;
     name: string;
     description: string;

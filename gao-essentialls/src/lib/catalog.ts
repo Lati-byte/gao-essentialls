@@ -4,7 +4,7 @@ import { prisma } from "./db";
 import { parseList } from "./format";
 
 export type ProductCardData = {
-  id: number;
+  id: string;
   slug: string;
   name: string;
   price: number;

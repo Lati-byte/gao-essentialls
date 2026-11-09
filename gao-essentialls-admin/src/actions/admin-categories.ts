@@ -7,7 +7,7 @@ import { prisma } from "@/lib/db";
 import { slugify } from "@/lib/format";
 
 const categorySchema = z.object({
-  id: z.coerce.number().optional(),
+  id: z.string().optional(),
   name: z.string().min(2, "Category name must be at least 2 characters"),
   slug: z.string().optional(),
   description: z.string().default(""),
@@ -22,7 +22,7 @@ export async function saveCategory(
   await requireAdmin();
 
   const idRaw = formData.get("id");
-  const id = idRaw ? Number(idRaw) : undefined;
+  const id = idRaw ? String(idRaw).trim() || undefined : undefined;
 
   const raw = {
     id,
@@ -89,7 +89,7 @@ export async function saveCategory(
   }
 }
 
-export async function deleteCategory(id: number): Promise<{ success: boolean; error?: string }> {
+export async function deleteCategory(id: string): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
   try {
     const productsCount = await prisma.product.count({ where: { categoryId: id } });

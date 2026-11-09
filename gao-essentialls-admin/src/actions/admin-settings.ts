@@ -50,11 +50,17 @@ export async function updateStoreSettings(
   }
 
   try {
-    await prisma.setting.upsert({
-      where: { id: 1 },
-      update: parsed.data,
-      create: { id: 1, ...parsed.data },
-    });
+    const existing = await prisma.setting.findFirst();
+    if (existing) {
+      await prisma.setting.update({
+        where: { id: existing.id },
+        data: parsed.data,
+      });
+    } else {
+      await prisma.setting.create({
+        data: parsed.data,
+      });
+    }
 
     revalidatePath("/", "layout");
     revalidatePath("/settings");

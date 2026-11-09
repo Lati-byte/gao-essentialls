@@ -1,17 +1,17 @@
 // Gao Essentialls – admin database schema
-// Connects to shared SQLite database in gao-essentialls/prisma/dev.db
+// Configured for MongoDB Atlas
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Category {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   slug        String    @unique
   description String    @default("")
@@ -24,7 +24,7 @@ model Category {
 }
 
 model Product {
-  id          Int         @id @default(autoincrement())
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   slug        String      @unique
   description String      @default("")
@@ -40,8 +40,8 @@ model Product {
   colors      String      @default("[]")
   isFeatured  Boolean     @default(false)
   isActive    Boolean     @default(true)
-  categoryId  Int
-  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  categoryId  String      @db.ObjectId
+  category    Category    @relation(fields: [categoryId], references: [id])
   orderItems  OrderItem[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -50,7 +50,7 @@ model Product {
 }
 
 model Order {
-  id             Int         @id @default(autoincrement())
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
   orderNumber    String      @unique
   customerName   String
   email          String
@@ -79,10 +79,10 @@ model Order {
 }
 
 model OrderItem {
-  id        Int      @id @default(autoincrement())
-  orderId   Int
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String   @db.ObjectId
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId Int?
+  productId String?  @db.ObjectId
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   name      String
   image     String   @default("")
@@ -93,7 +93,7 @@ model OrderItem {
 }
 
 model AdminUser {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   email        String   @unique
   name         String
   passwordHash String
@@ -101,7 +101,7 @@ model AdminUser {
 }
 
 model Setting {
-  id                    Int    @id @default(1)
+  id                    String @id @default(auto()) @map("_id") @db.ObjectId
   storeName             String @default("Gao Essentialls")
   currencySymbol        String @default("R")
   deliveryFee           Float  @default(99)

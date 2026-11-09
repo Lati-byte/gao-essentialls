@@ -7,7 +7,7 @@ import { SignJWT, jwtVerify } from "jose";
 export const SESSION_COOKIE = "gao_admin_session";
 export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
 
-export type AdminSession = { id: number; email: string; name: string };
+export type AdminSession = { id: string; email: string; name: string };
 
 function getKey() {
   const secret = process.env.AUTH_SECRET;
@@ -29,8 +29,8 @@ export async function verifySessionToken(token: string | undefined): Promise<Adm
   if (!token) return null;
   try {
     const { payload } = await jwtVerify(token, getKey());
-    if (typeof payload.id !== "number" || typeof payload.email !== "string") return null;
-    return { id: payload.id, email: payload.email, name: String(payload.name ?? "") };
+    if (typeof payload.id !== "string" || typeof payload.email !== "string") return null;
+    return { id: String(payload.id), email: payload.email, name: String(payload.name ?? "") };
   } catch {
     return null;
   }

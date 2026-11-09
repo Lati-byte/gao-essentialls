@@ -8,7 +8,7 @@ import { effectivePrice, formatPrice, LOW_STOCK_THRESHOLD } from "@/lib/format";
 import { useCart } from "./cart-context";
 
 export type CardProduct = {
-  id: number;
+  id: string;
   slug: string;
   name: string;
   price: number;

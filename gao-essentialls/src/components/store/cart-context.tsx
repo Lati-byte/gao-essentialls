@@ -5,7 +5,7 @@ import type { PublicSettings } from "@/lib/settings";
 
 export type CartItem = {
   key: string;
-  productId: number;
+  productId: string;
   slug: string;
   name: string;
   image: string;
@@ -35,7 +35,7 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "gao-cart-v1";
 
-export function makeKey(productId: number, size: string, color: string) {
+export function makeKey(productId: string | number, size: string, color: string) {
   return `${productId}::${size}::${color}`;
 }
 

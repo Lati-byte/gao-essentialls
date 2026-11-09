@@ -6,7 +6,7 @@ import { Edit, Eye, EyeOff, Loader2, Trash2 } from "lucide-react";
 import { deleteProduct, quickUpdateStock, toggleProductActive } from "@/actions/admin-products";
 
 interface ProductRowActionsProps {
-  productId: number;
+  productId: string;
   slug: string;
   stock: number;
   isActive: boolean;
