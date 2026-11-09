@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+*/node_modules/
+.pnp
+.pnp.*
+
+# Testing & Coverage
+coverage/
+
+# Next.js build output
+.next/
+*/.next/
+out/
+*/out/
+build/
+*/build/
+
+# Production builds
+dist/
+
+# SQLite databases & temp files (do not commit databases)
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+dev.db
+
+# Environment files (keep credentials secret)
+.env
+.env*.local
+*.env
+!.env.example
+!*/.env.example
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+*/next-env.d.ts
+
+# Operating System files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Skill template resources (not part of store application)
+data/
+scripts/
+SKILL.md

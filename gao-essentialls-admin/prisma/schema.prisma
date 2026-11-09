@@ -1,0 +1,118 @@
+// Gao Essentialls – admin database schema
+// Connects to shared SQLite database in gao-essentialls/prisma/dev.db
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  description String    @default("")
+  image       String    @default("")
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  description String      @default("")
+  price       Float
+  salePrice   Float?
+  stock       Int         @default(0)
+  sku         String      @default("")
+  /// JSON array of image URLs
+  images      String      @default("[]")
+  /// JSON array of size labels
+  sizes       String      @default("[]")
+  /// JSON array of colour labels
+  colors      String      @default("[]")
+  isFeatured  Boolean     @default(false)
+  isActive    Boolean     @default(true)
+  categoryId  Int
+  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([categoryId])
+}
+
+model Order {
+  id             Int         @id @default(autoincrement())
+  orderNumber    String      @unique
+  customerName   String
+  email          String
+  phone          String
+  address        String      @default("")
+  city           String      @default("")
+  postalCode     String      @default("")
+  /// DELIVERY | COLLECTION
+  deliveryMethod String      @default("DELIVERY")
+  /// COD | EFT | PAY_ON_COLLECTION
+  paymentMethod  String      @default("COD")
+  /// PENDING | CONFIRMED | SHIPPED | DELIVERED | CANCELLED
+  status         String      @default("PENDING")
+  /// UNPAID | PAID | REFUNDED
+  paymentStatus  String      @default("UNPAID")
+  subtotal       Float
+  deliveryFee    Float
+  total          Float
+  notes          String      @default("")
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@index([email])
+  @@index([status])
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  name      String
+  image     String   @default("")
+  price     Float
+  quantity  Int
+  size      String   @default("")
+  color     String   @default("")
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Setting {
+  id                    Int    @id @default(1)
+  storeName             String @default("Gao Essentialls")
+  currencySymbol        String @default("R")
+  deliveryFee           Float  @default(99)
+  freeDeliveryThreshold Float  @default(1000)
+  announcement          String @default("")
+  phone                 String @default("")
+  email                 String @default("")
+  whatsapp              String @default("")
+  address               String @default("")
+  bankName              String @default("")
+  accountName           String @default("")
+  accountNumber         String @default("")
+  branchCode            String @default("")
+}

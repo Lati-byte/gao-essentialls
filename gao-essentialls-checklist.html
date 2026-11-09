@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gao Essentialls — Pre-Launch Operational Checklist</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #111827;
+    background: #ffffff;
+    line-height: 1.5;
+    font-size: 13px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .header {
+    border-bottom: 2px solid #0a0b0d;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-box {
+    width: 34px;
+    height: 34px;
+    background: #0a0b0d;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #0a0b0d;
+  }
+
+  .doc-meta {
+    text-align: right;
+    font-size: 11px;
+    color: #6b7280;
+  }
+
+  .doc-title-block {
+    margin-bottom: 28px;
+  }
+
+  .doc-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b45309;
+    margin-bottom: 4px;
+  }
+
+  .doc-title {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0a0b0d;
+  }
+
+  .doc-subtitle {
+    font-size: 13px;
+    color: #4b5563;
+    margin-top: 6px;
+    max-width: 650px;
+  }
+
+  .section {
+    margin-bottom: 24px;
+    break-inside: avoid;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #0a0b0d;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .section-num {
+    font-size: 11px;
+    font-weight: 800;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0a0b0d;
+  }
+
+  .checklist {
+    list-style: none;
+    padding-left: 4px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .check-item:last-child {
+    border-bottom: none;
+  }
+
+  .checkbox {
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid #9ca3af;
+    border-radius: 3px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .item-content {
+    flex: 1;
+  }
+
+  .item-title {
+    font-weight: 600;
+    font-size: 12.5px;
+    color: #111827;
+  }
+
+  .item-desc {
+    font-size: 11.5px;
+    color: #4b5563;
+    margin-top: 2px;
+    line-height: 1.45;
+  }
+
+  .badge-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-urgent {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+  }
+
+  .badge-recommended {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .badge-optional {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+  }
+
+  .info-callout {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 11px;
+    color: #334155;
+    line-height: 1.5;
+  }
+
+  .info-callout strong {
+    color: #0f172a;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  .footer-note {
+    margin-top: 32px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #9ca3af;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Page 1 Header -->
+  <div class="header">
+    <div class="brand-logo">
+      <div class="logo-box">G</div>
+      <div class="brand-name">Gao Essentialls</div>
+    </div>
+    <div class="doc-meta">
+      <div><strong>Confidential Operational Guide</strong></div>
+      <div>Prepared: November 2026</div>
+      <div>Target: Commercial Go-Live</div>
+    </div>
+  </div>
+
+  <div class="doc-title-block">
+    <div class="doc-eyebrow">Store Launch Readiness</div>
+    <h1 class="doc-title">Pre-Launch Operational Checklist</h1>
+    <p class="doc-subtitle">
+      A step-by-step master checklist of actions required across business settings, inventory, payments, courier logistics, and deployment before opening Gao Essentialls to public customers.
+    </p>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">STEP 01</span>
+      <h2 class="section-title">Store & Business Information (Admin Settings)</h2>
+    </div>
+    <ul class="checklist">
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Real Banking Details for EFT Payments <span class="badge-tag badge-urgent">Action Required</span></div>
+          <div class="item-desc">In Admin &rarr; Settings, input your verified South African business bank account (Bank Name, Account Holder, Account Number, Branch Code). These details appear on customer invoices and order confirmation screens.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Official WhatsApp & Telephone Numbers <span class="badge-tag badge-urgent">Action Required</span></div>
+          <div class="item-desc">Enter your primary WhatsApp Business contact number. Customers use this line to send EFT payment proofs and ask pre-purchase questions.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Customer Care Email Address</div>
+          <div class="item-desc">Set an active company email (e.g. <code>orders@gaoessentialls.co.za</code>) to receive customer messages from the Contact page and checkout confirmation copies.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Warehouse / Store Collection Address</div>
+          <div class="item-desc">Provide the exact street address in Johannesburg where customers choosing "Store Collection" will pick up their orders, along with collection hours (e.g. Mon–Fri 09:00–17:00).</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Announcement Banner Customization</div>
+          <div class="item-desc">Update the top notification banner (e.g. "Free nationwide delivery on orders over R1,000 | Cash on Delivery available").</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">STEP 02</span>
+      <h2 class="section-title">Product Catalogue & Inventory Finalization</h2>
+    </div>
+    <ul class="checklist">
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Audit Mock Seeded Products <span class="badge-tag badge-urgent">Action Required</span></div>
+          <div class="item-desc">Review the 41 existing sample products across Clothes, Shoes, Appliances, Pots, Bags, Blankets, Hats, and Jerseys. Delete items you don't stock or edit them to reflect actual inventory.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Accurate Selling & Promotional Prices</div>
+          <div class="item-desc">Confirm the correct regular retail price and optional sale/discount price in South African Rand (ZAR) for each product.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Initial Physical Stock Counts</div>
+          <div class="item-desc">Enter true unit counts for all items. Products with 0 stock automatically lock and show "Sold Out", while items below 5 units display an urgent "Only X left" badge.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Size & Colour Options Setup</div>
+          <div class="item-desc">Verify that variant selectors match your physical stock (e.g., S/M/L/XL for clothes & soccer jerseys; UK 4–11 for shoes; litre capacity like 5L/7.5L for pots and air fryers).</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Upload Real Product Photography</div>
+          <div class="item-desc">Use the Admin photo uploader to add real multi-angle photographs for any new incoming stock (JPEG, PNG, or WEBP up to 5MB).</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Page 2 Header -->
+  <div class="header">
+    <div class="brand-logo">
+      <div class="logo-box">G</div>
+      <div class="brand-name">Gao Essentialls</div>
+    </div>
+    <div class="doc-meta">
+      <div>Pre-Launch Checklist — Page 2</div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">STEP 03</span>
+      <h2 class="section-title">Payment Methods & Financial Workflows</h2>
+    </div>
+    <ul class="checklist">
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Cash on Delivery (COD) Rules & Validation <span class="badge-tag badge-recommended">Ready</span></div>
+          <div class="item-desc">COD is 100% active on the store. Confirm which metropolitan zones you service for cash handling and establish an SMS/WhatsApp verification step before dispatching COD packages.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">EFT Proof of Payment Verification Protocol</div>
+          <div class="item-desc">Establish a daily routine to check your business bank account against customer order numbers (e.g. <code>GAO-10045</code>) before changing an order's status to "Confirmed" in Admin.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Online Card Payment Gateway Integration <span class="badge-tag badge-optional">Optional</span></div>
+          <div class="item-desc">If you wish to accept Visa/Mastercard cards and Instant EFT, create a merchant account with <strong>PayFast</strong>, <strong>Yoco</strong>, or <strong>Ozow</strong> and complete FICA verification.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">STEP 04</span>
+      <h2 class="section-title">Courier Logistics & Packaging Materials</h2>
+    </div>
+    <ul class="checklist">
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Courier Partner Account Setup <span class="badge-tag badge-urgent">Action Required</span></div>
+          <div class="item-desc">Open a commercial business account with a nationwide courier such as <strong>The Courier Guy</strong>, <strong>Pudo</strong>, <strong>Fastway</strong>, or <strong>Aramex</strong>.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Delivery Fees & Free Shipping Threshold</div>
+          <div class="item-desc">Set your flat delivery rate (e.g. R99 or R120) and your Free Shipping threshold (e.g. R1,000) in Admin &rarr; Settings to match your courier contract rates.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Packaging Supplies & Waybills</div>
+          <div class="item-desc">Ensure you have flyer bags, sturdy cartons, bubble wrap (critical for pots and air fryers), and label printing paper ready at your dispatch station.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">STEP 05</span>
+      <h2 class="section-title">Legal Compliance & South African Consumer Laws</h2>
+    </div>
+    <ul class="checklist">
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Return & Refund Policy (CPA Compliant) <span class="badge-tag badge-recommended">Recommended</span></div>
+          <div class="item-desc">Define your return window (standard 7–14 days for unused goods in original packaging), warranty on electric appliances, and who covers return courier fees.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Privacy Policy (POPIA Compliant)</div>
+          <div class="item-desc">State that customer names, physical addresses, and contact numbers are stored securely and used solely for fulfilling orders and courier delivery.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">STEP 06</span>
+      <h2 class="section-title">Security, Domain & 24/7 Cloud Deployment</h2>
+    </div>
+    <ul class="checklist">
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Change Default Admin Password <span class="badge-tag badge-urgent">Action Required</span></div>
+          <div class="item-desc">The current default password is <code>Admin@123</code>. Change this immediately to a secure 12+ character private password.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Register Official Domain Name</div>
+          <div class="item-desc">Acquire <code>gaoessentialls.co.za</code> (or <code>.com</code>) through Domains.co.za, Namecheap, or 1-grid.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Deploy to 24/7 Cloud Server</div>
+          <div class="item-desc">Deploy to a cost-effective cloud VPS (DigitalOcean/Hetzner ~$5/month) or Vercel so the store runs around the clock with free SSL (HTTPS) encryption.</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Live Dry-Run Test Order</div>
+          <div class="item-desc">Place an actual order on your smartphone, check the receipt, confirm it appears in the Admin dashboard, and verify the order tracker updates cleanly.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="info-callout">
+    <strong>Immediate Access Details:</strong><br>
+    • Storefront: <code>http://localhost:3000</code><br>
+    • Admin Dashboard: <code>http://localhost:3001/login</code> (Email: <code>admin@gaoessentialls.co.za</code>)<br>
+    • All product uploads and order updates sync automatically between the dashboard and storefront.
+  </div>
+
+  <div class="footer-note">
+    <span>Gao Essentialls &copy; 2026. All Rights Reserved.</span>
+    <span>Document Ref: GE-OPS-CHECKLIST-V1</span>
+  </div>
+
+</body>
+</html>

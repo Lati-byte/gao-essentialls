@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* ───────────── Gao Essentialls Design System Tokens ─────────────
+   Aesthetic: Contemporary Luxury DTC (Inspired by Apple, COS, SSENSE, Aesop)
+   Palette: Rich Obsidian, Warm Porcelain, Subtle Hairlines, Rich Amber accents */
+@theme inline {
+  --color-primary: #0a0b0d;
+  --color-primary-dark: #000000;
+  --color-primary-light: #f4f4f5;
+  --color-accent: #b45309;
+  --color-accent-light: #fef3c7;
+  --color-cta: #0a0b0d;
+  --color-cta-dark: #000000;
+  --color-success: #15803d;
+  --color-success-light: #dcfce7;
+  --color-danger: #b91c1c;
+  --color-ink: #0a0b0d;
+  --color-ink-muted: #52525b;
+  --color-muted: #71717a;
+  --color-line: #e4e4e7;
+  --color-line-subtle: #f4f4f5;
+  --color-surface: #fafafa;
+  --color-surface-raised: #ffffff;
+
+  --font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled),
+a,
+summary,
+select,
+label[for] {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────── Refined Component Utilities ───────────── */
+@utility container-page {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40;
+}
+@utility btn-primary {
+  @apply btn bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.99];
+}
+@utility btn-cta {
+  @apply btn bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.99];
+}
+@utility btn-outline {
+  @apply btn border border-neutral-300 bg-white text-neutral-900 hover:border-neutral-950 hover:bg-neutral-50 active:scale-[0.99];
+}
+@utility btn-ghost {
+  @apply btn text-neutral-800 hover:bg-neutral-100;
+}
+@utility btn-danger {
+  @apply btn bg-red-600 text-white hover:bg-red-700;
+}
+
+@utility input {
+  @apply block min-h-11 w-full rounded-md border border-neutral-300 bg-white px-3.5 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 transition-colors duration-150 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900;
+}
+@utility label {
+  @apply mb-1.5 block text-xs font-semibold tracking-wider uppercase text-neutral-600;
+}
+@utility card {
+  @apply rounded-xl border border-neutral-200/80 bg-white transition-all duration-200;
+}
+@utility badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold tracking-wider uppercase;
+}
