@@ -38,6 +38,7 @@ export async function saveProduct(
 
   const idRaw = formData.get("id");
   const id = idRaw ? String(idRaw).trim() || undefined : undefined;
+  const salePriceRaw = String(formData.get("salePrice") || "").trim();
 
   const rawData = {
     id,
@@ -46,7 +47,7 @@ export async function saveProduct(
     description: String(formData.get("description") || "").trim(),
     categoryId: String(formData.get("categoryId") || "").trim(),
     price: formData.get("price"),
-    salePrice: formData.get("salePrice") || null,
+    salePrice: salePriceRaw ? salePriceRaw : null,
     stock: formData.get("stock") || 0,
     sku: String(formData.get("sku") || "").trim(),
     images: String(formData.get("images") || "[]"),
@@ -62,10 +63,18 @@ export async function saveProduct(
   }
 
   const data = parsed.data;
-  const baseSlug = data.slug ? slugify(data.slug) : slugify(data.name);
+  const baseSlug = (data.slug ? slugify(data.slug) : slugify(data.name)) || `product-${Date.now()}`;
 
   let createdId: string | null = null;
   try {
+    const categoryExists = await prisma.category.findUnique({
+      where: { id: data.categoryId },
+      select: { id: true },
+    });
+    if (!categoryExists) {
+      return { error: "Selected category no longer exists. Please pick another category." };
+    }
+
     let finalSlug = baseSlug;
     // Ensure slug uniqueness
     const existingSlug = await prisma.product.findFirst({
@@ -120,6 +129,7 @@ export async function saveProduct(
     }
 
     revalidatePath("/products");
+    revalidatePath("/");
     if (!createdId && id) {
       revalidatePath(`/products/${id}`);
     }

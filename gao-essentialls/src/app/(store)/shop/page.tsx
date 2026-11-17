@@ -281,15 +281,19 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         <main>
           {products.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-xl border border-neutral-200/80 bg-neutral-50/50 p-12 text-center">
-              <p className="font-heading text-base font-bold text-neutral-950">No products found</p>
+              <p className="font-heading text-base font-bold text-neutral-950">
+                {hasActiveFilters ? "No products found" : "New Collection Coming Soon"}
+              </p>
               <p className="mt-2 max-w-sm text-xs text-neutral-500 leading-relaxed">
-                We couldn&apos;t find matching items with the current filters. Try loosening your criteria or resetting filters.
+                {hasActiveFilters
+                  ? "We couldn't find matching items with the current filters. Try loosening your criteria or resetting filters."
+                  : "We are currently stocking our catalogue with curated essentials. Check back shortly!"}
               </p>
               <Link
-                href="/shop"
+                href={hasActiveFilters ? "/shop" : "/"}
                 className="mt-6 inline-flex rounded-md bg-neutral-950 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 transition-colors"
               >
-                Reset All Filters
+                {hasActiveFilters ? "Reset All Filters" : "Back to Home"}
               </Link>
             </div>
           ) : (

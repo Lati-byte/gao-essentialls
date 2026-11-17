@@ -7,6 +7,7 @@ import {
   AlertCircle,
   ArrowLeft,
   Check,
+  ExternalLink,
   Loader2,
   Plus,
   Save,
@@ -40,15 +41,24 @@ interface ProductFormProps {
   };
   categories: CategoryOption[];
   currencySymbol: string;
+  justSaved?: boolean;
+  storeUrl?: string;
 }
 
-export function ProductForm({ initialData, categories, currencySymbol }: ProductFormProps) {
+export function ProductForm({
+  initialData,
+  categories,
+  currencySymbol,
+  justSaved = false,
+  storeUrl = "https://gaoessentialls.co.za",
+}: ProductFormProps) {
   const [state, formAction, isPending] = useActionState(saveProduct, undefined);
 
   const [images, setImages] = useState<string[]>(initialData?.images || []);
   const [sizes, setSizes] = useState<string[]>(initialData?.sizes || []);
   const [colors, setColors] = useState<string[]>(initialData?.colors || []);
 
+  const [imageUrlInput, setImageUrlInput] = useState("");
   const [sizeInput, setSizeInput] = useState("");
   const [colorInput, setColorInput] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -89,10 +99,33 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
     setImages((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function addImageUrl() {
+    const trimmed = imageUrlInput.trim();
+    if (!trimmed) return;
+    if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://") && !trimmed.startsWith("/")) {
+      setUploadError("Please enter a valid image URL starting with https:// or /");
+      return;
+    }
+    setUploadError(null);
+    if (!images.includes(trimmed)) {
+      setImages((prev) => [...prev, trimmed]);
+    }
+    setImageUrlInput("");
+  }
+
   function addSize() {
-    const s = sizeInput.trim().toUpperCase();
-    if (s && !sizes.includes(s)) {
-      setSizes((prev) => [...prev, s]);
+    const entries = sizeInput
+      .split(",")
+      .map((item) => item.trim().toUpperCase())
+      .filter(Boolean);
+    if (entries.length > 0) {
+      setSizes((prev) => {
+        const next = [...prev];
+        for (const entry of entries) {
+          if (!next.includes(entry)) next.push(entry);
+        }
+        return next;
+      });
       setSizeInput("");
     }
   }
@@ -102,9 +135,18 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
   }
 
   function addColor() {
-    const c = colorInput.trim();
-    if (c && !colors.includes(c)) {
-      setColors((prev) => [...prev, c]);
+    const entries = colorInput
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    if (entries.length > 0) {
+      setColors((prev) => {
+        const next = [...prev];
+        for (const entry of entries) {
+          if (!next.includes(entry)) next.push(entry);
+        }
+        return next;
+      });
       setColorInput("");
     }
   }
@@ -112,6 +154,8 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
   function removeColor(c: string) {
     setColors((prev) => prev.filter((item) => item !== c));
   }
+
+  const showSavedBanner = Boolean(state?.success || (justSaved && !state?.error));
 
   return (
     <form action={formAction} className="space-y-8">
@@ -140,7 +184,7 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
           </Link>
           <button
             type="submit"
-            disabled={isPending}
+            disabled={isPending || categories.length === 0}
             className="btn-primary min-h-10 px-5 text-xs shadow-md disabled:opacity-60 flex items-center gap-2"
           >
             {isPending ? (
@@ -153,6 +197,21 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
         </div>
       </div>
 
+      {categories.length === 0 && (
+        <div
+          role="alert"
+          className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900"
+        >
+          <div className="flex items-start gap-2.5">
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" aria-hidden="true" />
+            <span>You need at least one active category before adding a product.</span>
+          </div>
+          <Link href="/categories" className="btn-primary min-h-9 px-4 text-xs shrink-0">
+            Create Category
+          </Link>
+        </div>
+      )}
+
       {state?.error && (
         <div
           role="alert"
@@ -163,13 +222,31 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
         </div>
       )}
 
-      {state?.success && (
+      {showSavedBanner && (
         <div
           role="status"
-          className="flex items-start gap-2.5 rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-success"
+          className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-success"
         >
-          <Check className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
-          <span>Product saved successfully!</span>
+          <div className="flex items-start gap-2.5">
+            <Check className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+            <span className="font-semibold">Product saved successfully!</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {initialData?.slug && (
+              <a
+                href={`${storeUrl.replace(/\/$/, "")}/product/${initialData.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline min-h-8 bg-white px-3 text-xs flex items-center gap-1.5"
+              >
+                <span>View in Store</span>
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
+            )}
+            <Link href="/products/new" className="btn-primary min-h-8 px-3 text-xs">
+              + Add Another Product
+            </Link>
+          </div>
         </div>
       )}
 
@@ -300,7 +377,7 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
               <label className="card flex aspect-square cursor-pointer flex-col items-center justify-center border-dashed border-2 hover:border-primary transition-colors p-4 text-center">
                 <input
                   type="file"
-                  accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                  accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif"
                   onChange={handleFileUpload}
                   disabled={uploading}
                   className="sr-only"
@@ -315,6 +392,35 @@ export function ProductForm({ initialData, categories, currencySymbol }: Product
                   </>
                 )}
               </label>
+            </div>
+
+            <div className="pt-2 border-t border-line">
+              <label htmlFor="imageUrlInput" className="label text-xs">
+                Or paste image URL (optional)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="imageUrlInput"
+                  type="text"
+                  value={imageUrlInput}
+                  onChange={(e) => setImageUrlInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addImageUrl();
+                    }
+                  }}
+                  placeholder="https://example.com/photo.jpg"
+                  className="input flex-1 min-h-9 text-xs"
+                />
+                <button
+                  type="button"
+                  onClick={addImageUrl}
+                  className="btn-outline min-h-9 px-3 text-xs"
+                >
+                  <Plus className="h-3.5 w-3.5" aria-hidden="true" /> Add URL
+                </button>
+              </div>
             </div>
           </div>
 

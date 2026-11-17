@@ -18,7 +18,11 @@ export default async function NewProductPage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <ProductForm categories={categories} currencySymbol={settings.currencySymbol} />
+      <ProductForm
+        categories={categories}
+        currencySymbol={settings.currencySymbol}
+        storeUrl={process.env.NEXT_PUBLIC_STORE_URL || "https://gaoessentialls.co.za"}
+      />
     </div>
   );
 }

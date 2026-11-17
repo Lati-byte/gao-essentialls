@@ -116,3 +116,12 @@ model Setting {
   accountNumber         String @default("")
   branchCode            String @default("")
 }
+
+model UploadedImage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  filename  String   @unique
+  mimeType  String
+  data      Bytes
+  size      Int
+  createdAt DateTime @default(now())
+}
