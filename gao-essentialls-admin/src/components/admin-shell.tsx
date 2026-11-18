@@ -159,12 +159,14 @@ export function AdminShell({
           </div>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/products/new"
-              className="btn-primary min-h-9 px-3 py-1.5 text-xs shadow-sm"
-            >
-              + Add Product
-            </Link>
+            {pathname !== "/products/new" && (
+              <Link
+                href="/products/new"
+                className="btn-primary min-h-9 px-3 py-1.5 text-xs shadow-sm"
+              >
+                + Add Product
+              </Link>
+            )}
           </div>
         </header>
 

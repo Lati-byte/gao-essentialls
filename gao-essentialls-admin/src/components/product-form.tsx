@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -155,14 +155,52 @@ export function ProductForm({
     setColors((prev) => prev.filter((item) => item !== c));
   }
 
+  const errorBannerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (state?.error) {
+      errorBannerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [state]);
+
+  // Include any typed-but-unclicked variant or URL entries on submit
+  const pendingUrl = imageUrlInput.trim();
+  const effectiveImages =
+    pendingUrl &&
+    (pendingUrl.startsWith("http://") || pendingUrl.startsWith("https://") || pendingUrl.startsWith("/")) &&
+    !images.includes(pendingUrl)
+      ? [...images, pendingUrl]
+      : images;
+
+  const effectiveSizes = Array.from(
+    new Set([
+      ...sizes,
+      ...sizeInput
+        .split(",")
+        .map((s) => s.trim().toUpperCase())
+        .filter(Boolean),
+    ])
+  );
+
+  const effectiveColors = Array.from(
+    new Set([
+      ...colors,
+      ...colorInput
+        .split(",")
+        .map((c) => c.trim())
+        .filter(Boolean),
+    ])
+  );
+
   const showSavedBanner = Boolean(state?.success || (justSaved && !state?.error));
+  const submitLabel = initialData ? "Update Product" : "Add Product";
 
   return (
-    <form action={formAction} className="space-y-8">
+    <form action={formAction} noValidate className="space-y-8">
       {initialData?.id && <input type="hidden" name="id" value={initialData.id} />}
-      <input type="hidden" name="images" value={JSON.stringify(images)} />
-      <input type="hidden" name="sizes" value={JSON.stringify(sizes)} />
-      <input type="hidden" name="colors" value={JSON.stringify(colors)} />
+      <input type="hidden" name="images" value={JSON.stringify(effectiveImages)} />
+      <input type="hidden" name="sizes" value={JSON.stringify(effectiveSizes)} />
+      <input type="hidden" name="colors" value={JSON.stringify(effectiveColors)} />
 
       {/* Header and Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-line pb-4">
@@ -184,7 +222,7 @@ export function ProductForm({
           </Link>
           <button
             type="submit"
-            disabled={isPending || categories.length === 0}
+            disabled={isPending || uploading || categories.length === 0}
             className="btn-primary min-h-10 px-5 text-xs shadow-md disabled:opacity-60 flex items-center gap-2"
           >
             {isPending ? (
@@ -192,7 +230,7 @@ export function ProductForm({
             ) : (
               <Save className="h-4 w-4" aria-hidden="true" />
             )}
-            <span>{initialData ? "Update Product" : "Save Product"}</span>
+            <span>{isPending ? "Saving..." : submitLabel}</span>
           </button>
         </div>
       </div>
@@ -214,6 +252,7 @@ export function ProductForm({
 
       {state?.error && (
         <div
+          ref={errorBannerRef}
           role="alert"
           className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-danger"
         >
@@ -626,6 +665,25 @@ export function ProductForm({
             </label>
           </div>
         </div>
+      </div>
+
+      {/* Bottom Action Bar */}
+      <div className="flex items-center justify-end gap-3 border-t border-line pt-6">
+        <Link href="/products" className="btn-outline min-h-10 px-4 text-xs">
+          Cancel
+        </Link>
+        <button
+          type="submit"
+          disabled={isPending || uploading || categories.length === 0}
+          className="btn-primary min-h-10 px-6 text-xs shadow-md disabled:opacity-60 flex items-center gap-2"
+        >
+          {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+          ) : (
+            <Save className="h-4 w-4" aria-hidden="true" />
+          )}
+          <span>{isPending ? "Saving..." : submitLabel}</span>
+        </button>
       </div>
     </form>
   );

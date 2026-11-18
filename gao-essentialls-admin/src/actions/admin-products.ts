@@ -38,7 +38,12 @@ export async function saveProduct(
 
   const idRaw = formData.get("id");
   const id = idRaw ? String(idRaw).trim() || undefined : undefined;
+  const priceRaw = String(formData.get("price") || "").trim();
   const salePriceRaw = String(formData.get("salePrice") || "").trim();
+
+  if (!priceRaw || Number.isNaN(Number(priceRaw)) || Number(priceRaw) <= 0) {
+    return { error: "Please enter a valid regular price greater than 0." };
+  }
 
   const rawData = {
     id,
@@ -46,7 +51,7 @@ export async function saveProduct(
     slug: String(formData.get("slug") || "").trim(),
     description: String(formData.get("description") || "").trim(),
     categoryId: String(formData.get("categoryId") || "").trim(),
-    price: formData.get("price"),
+    price: priceRaw,
     salePrice: salePriceRaw ? salePriceRaw : null,
     stock: formData.get("stock") || 0,
     sku: String(formData.get("sku") || "").trim(),
